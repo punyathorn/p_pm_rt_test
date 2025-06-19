@@ -34,7 +34,8 @@ async def main():
     await browser.wait(0.1)
     password = await page.select("input[type='password'][name='tpasswd']")
     await browser.wait(0.1)   
-    await password.send_keys("password")   
+    await password.send_keys("password") 
+    await browser.wait(5)
     btn = await page.find("Log in", best_match=True)
     await btn.mouse_click()
     #await browser.wait(10)  # wait for the login to complete
@@ -56,6 +57,22 @@ async def main():
     await page.wait_for(text="Register", timeout=20000)
     btn = await page.find("Register", best_match=True)
     await btn.mouse_click()
+    await page.wait(2)
+    k = 0
+    while k == 0:
+        if await page.find("Central Ladprao", best_match=True):
+            print("Central Ladprao found")
+            k = 1
+        else:
+            btn = await browser.find("X", best_match=True)
+            await btn.click()
+            await browser.wait(1)
+            await page.wait_for(text="Register", timeout=20000)
+            btn = await page.find("Register", best_match=True)
+            await btn.mouse_click()
+            await browser.wait(2)
+
+    
     await page.wait_for(text="Central Ladprao", timeout=20000)
     btn = await page.find("Central Ladprao", best_match=True)
     await btn.mouse_click()
